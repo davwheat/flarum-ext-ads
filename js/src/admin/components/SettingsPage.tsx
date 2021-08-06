@@ -179,13 +179,30 @@ export default class SettingsPage extends ExtensionPage {
     this.state.isDirty = true;
   }
 
-  saveSettings(e: Event) {
+  private async saveSettings(e: Event) {
     e.preventDefault();
 
     app.alerts.clear();
     this.state.loading = true;
 
-    return saveSettings({
+    const doesCodeHaveScriptTag = (Object.keys(this.state.code) as (keyof ISettingsPageState['code'])[]).some((key) => {
+      const code = this.state.code[key];
+
+      if (code.includes('<script')) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (doesCodeHaveScriptTag) {
+      app.alerts.show({ type: 'error' }, translate('alert.code_has_script'));
+
+      this.state.loading = false;
+      return false;
+    }
+
+    await saveSettings({
       'davwheat-ads.enabled-ad-locations': JSON.stringify(this.state.enabledLocations),
       'davwheat-ads.ca-pub-id': this.state.pubId,
       'davwheat-ads.between-n-posts': this.state.betweenNPosts,
@@ -194,7 +211,10 @@ export default class SettingsPage extends ExtensionPage {
       ...Object.keys(this.state.code).reduce((prev, curr) => {
         return { ...prev, [`davwheat-ads.ad-code.${curr}`]: this.state.code[curr as AdUnitLocations] };
       }, {}),
-    }).then(this.onSettingsSaved.bind(this));
+    });
+
+    this.onSettingsSaved();
+    return true;
   }
 
   onSettingsSaved(): void {

@@ -21,6 +21,7 @@ davwheat:
 
         alert:
           fix_errors: Please fix errors above before saving changes
+          code_has_script: One or more of your ad units contain script tags, which are not allowed. Remove these and try again.
 
         warning: |
           The ad code should <b>ONLY</b> include the <code>ins</code> tag(s), and not any script tags. The scripts are automatically run by
