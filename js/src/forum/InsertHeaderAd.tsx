@@ -5,6 +5,7 @@ import { extend, override } from 'flarum/common/extend';
 import IndexPage from 'flarum/forum/components/IndexPage';
 
 import type * as Mithril from 'mithril';
+import RefreshAds from './RefreshAds';
 
 export default function InsertHeaderAd() {
   const AdCode = app.data['davwheat-ads.ad-code.header'] as string;
@@ -16,10 +17,7 @@ export default function InsertHeaderAd() {
   });
 
   extend(IndexPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
-    try {
-      // @ts-ignore
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    } catch {}
+    RefreshAds();
 
     return returned;
   });

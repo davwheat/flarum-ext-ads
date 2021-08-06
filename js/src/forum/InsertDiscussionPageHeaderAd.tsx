@@ -11,6 +11,7 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import listItems from 'flarum/common/helpers/listItems';
 
 import type * as Mithril from 'mithril';
+import RefreshAds from './RefreshAds';
 
 export default function InsertDiscussionPageHeaderAd() {
   const AdCode = app.data['davwheat-ads.ad-code.discussion_header'] as string;
@@ -50,10 +51,7 @@ export default function InsertDiscussionPageHeaderAd() {
   });
 
   extend(DiscussionPage.prototype, ['oncreate', 'onupdate'], function (this: DiscussionHero, returned: any) {
-    try {
-      // @ts-ignore
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    } catch {}
+    RefreshAds();
 
     return returned;
   });
