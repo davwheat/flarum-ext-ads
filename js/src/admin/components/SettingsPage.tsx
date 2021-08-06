@@ -44,8 +44,8 @@ export default class SettingsPage extends ExtensionPage {
 
     this.state.enabledLocations = JSON.parse(app.data.settings['davwheat-ads.enabled-ad-locations']);
 
-    Object.keys(this.state.code).forEach((key) => {
-      this.state.code[key as AdUnitLocations] = app.data.settings[`davwheat-ads.ad-code.${key}`];
+    AllAdUnitLocations.forEach((location) => {
+      this.state.code[location] = app.data.settings[`davwheat-ads.ad-code.${location}`];
     });
 
     this.state.pubId = app.data.settings['davwheat-ads.ca-pub-id'];
