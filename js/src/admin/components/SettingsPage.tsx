@@ -27,7 +27,7 @@ export default class SettingsPage extends ExtensionPage {
     code: {
       header: '',
       footer: '',
-      discussion_sidebar: '',
+      sidebar: '',
       between_posts: '',
       discussion_header: '',
     },

@@ -5,6 +5,7 @@ import InsertBetweenPostsAds from './InsertBetweenPostsAds';
 import InsertDiscussionPageHeaderAd from './InsertDiscussionPageHeaderAd';
 import InsertFooterAd from './InsertFooterAd';
 import InsertHeaderAd from './InsertHeaderAd';
+import InsertSidebarAd from './InsertSidebarAd';
 
 app.initializers.add('davwheat/ads', () => {
   const enabledSlots: AdUnitLocations[] = JSON.parse(app.data['davwheat-ads.enabled-ad-locations']);
@@ -23,5 +24,9 @@ app.initializers.add('davwheat/ads', () => {
 
   if (enabledSlots.includes('between_posts')) {
     InsertBetweenPostsAds();
+  }
+
+  if (enabledSlots.includes('sidebar')) {
+    InsertSidebarAd();
   }
 });

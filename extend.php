@@ -45,7 +45,7 @@ return [
     ->addKey('davwheat-ads.between-n-posts')
     ->addKey('davwheat-ads.enable-ad-after-placeholder')
     ->addKey('davwheat-ads.ad-code.header')
-    ->addKey('davwheat-ads.ad-code.discussion_sidebar')
+    ->addKey('davwheat-ads.ad-code.sidebar')
     ->addKey('davwheat-ads.ad-code.between_posts')
     ->addKey('davwheat-ads.ad-code.footer')
     ->addKey('davwheat-ads.ad-code.discussion_header')
