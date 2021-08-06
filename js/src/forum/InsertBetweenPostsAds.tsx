@@ -31,7 +31,7 @@ export default function InsertBetweenPostsAds() {
     if (app.data['davwheat-ads.enable-ad-after-placeholder'] === '1') {
       newItems.push(
         <aside key={`davwheat-ad-after-placeholder`} class="PostStream-item">
-          <div class="davwheat-ad davwheat-ad-between-posts">{Html}</div>
+          <div class="davwheat-ad davwheat-ad-between-posts davwheat-ad-between-posts--after-placeholder">{Html}</div>
         </aside>
       );
     }
