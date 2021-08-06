@@ -16,5 +16,15 @@ export default function InsertFooterAd() {
     pushState.apply(history, args);
 
     footer.innerHTML = AdCode;
+    refreshAd();
   };
+
+  refreshAd();
+
+  function refreshAd() {
+    try {
+      // @ts-ignore
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    } catch {}
+  }
 }

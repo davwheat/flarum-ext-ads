@@ -14,6 +14,8 @@ const translate = (key: string, data?: Record<string, unknown>): string[] => app
 interface ISettingsPageState {
   enabledLocations: AdUnitLocations[];
   code: Record<AdUnitLocations, string>;
+  pubId: string;
+
   isDirty: boolean;
   loading: boolean;
 }
@@ -27,6 +29,7 @@ export default class SettingsPage extends ExtensionPage {
       discussion_sidebar: '',
       between_posts: '',
     },
+    pubId: '',
     isDirty: false,
     loading: false,
   };
@@ -42,11 +45,30 @@ export default class SettingsPage extends ExtensionPage {
     Object.keys(this.state.code).forEach((key) => {
       this.state.code[key as AdUnitLocations] = app.data.settings[`davwheat-ads.ad-code.${key}`];
     });
+
+    this.state.pubId = app.data.settings['davwheat-ads.ca-pub-id'];
   }
 
   content() {
     return (
       <div class="content">
+        <fieldset class="Form-group">
+          <label>
+            AdSense Publisher ID
+            <input
+              class="FormControl"
+              placeholder="ca-pub-XXXXXXXXXX"
+              type="text"
+              value={this.state.pubId}
+              oninput={(e: InputEvent) => {
+                this.state.isDirty = true;
+
+                this.state.pubId = (e.currentTarget as HTMLInputElement).value;
+              }}
+            />
+          </label>
+        </fieldset>
+
         <fieldset class="Form-group">
           <legend>{translate('enabled_locations')}</legend>
 
@@ -73,6 +95,8 @@ export default class SettingsPage extends ExtensionPage {
             </Switch>
           ))}
         </fieldset>
+
+        <aside class="davwheat-ads-notice">{translate('warning')}</aside>
 
         <fieldset class="Form-group">
           {AllAdUnitLocations.map((location) => (
@@ -124,6 +148,7 @@ export default class SettingsPage extends ExtensionPage {
 
     return saveSettings({
       'davwheat-ads.enabled-ad-locations': JSON.stringify(this.state.enabledLocations),
+      'davwheat-ads.ca-pub-id': this.state.pubId,
 
       ...Object.keys(this.state.code).reduce((prev, curr) => {
         return { ...prev, [`davwheat-ads.ad-code.${curr}`]: this.state.code[curr as AdUnitLocations] };

@@ -12,9 +12,5 @@
 use Flarum\Database\Migration;
 
 return Migration::addSettings([
-  'davwheat-ads.enabled-ad-locations' => '[]',
-  'davwheat-ads.ad-code.header' => '',
-  'davwheat-ads.ad-code.discussion_sidebar' => '',
-  'davwheat-ads.ad-code.between_posts' => '',
-  'davwheat-ads.ad-code.footer' => '',
+  'davwheat-ads.ca-pub-id' => '',
 ]);

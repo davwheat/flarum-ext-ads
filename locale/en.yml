@@ -18,10 +18,15 @@ davwheat:
         alert:
           fix_errors: Please fix errors above before saving changes
 
+        warning: |
+          The ad code should <b>ONLY</b> include the <code>&lt;ins&gt;</code> tag(s), and not any script tags. The scripts are automatically run by
+          this extension.
+
     forum:
 
     lib:
       locations:
+        discussion_header: Discussion page (under header)
         header: Header
         discussion_sidebar: Discussion sidebar
         footer: Footer

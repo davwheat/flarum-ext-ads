@@ -1,5 +1,7 @@
 import app from 'flarum/forum/app';
 import type { AdUnitLocations } from 'src/common/AdUnitLocations';
+
+import InsertDiscussionPageHeaderAd from './InsertDiscussionPageHeaderAd';
 import InsertFooterAd from './InsertFooterAd';
 import InsertHeaderAd from './InsertHeaderAd';
 
@@ -8,6 +10,10 @@ app.initializers.add('davwheat/ads', () => {
 
   if (enabledSlots.includes('header')) {
     InsertHeaderAd();
+  }
+
+  if (enabledSlots.includes('discussion_header')) {
+    InsertDiscussionPageHeaderAd();
   }
 
   if (enabledSlots.includes('footer')) {
