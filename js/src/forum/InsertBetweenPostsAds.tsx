@@ -2,8 +2,6 @@ import app from 'flarum/forum/app';
 
 import { extend, override } from 'flarum/common/extend';
 
-import IndexPage from 'flarum/forum/components/IndexPage';
-
 import type * as Mithril from 'mithril';
 import RefreshAds from './RefreshAds';
 import PostStream from 'flarum/forum/components/PostStream';
