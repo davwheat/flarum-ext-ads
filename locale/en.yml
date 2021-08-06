@@ -1,0 +1,28 @@
+davwheat:
+  ads:
+    # For more details on the format
+    # Checkout https://docs.flarum.org/extend/i18n.html#appendix-a-standard-key-format
+    admin:
+      settings:
+        enabled_locations: Enabled ad unit locations
+
+        code_input: 'Code for "{for}" ad unit'
+        code_input_disabled: Enable this location to edit its HTML code.
+
+        save_btn:
+          dirty: Save changes
+          saving: Saving...
+          saved: All changes saved
+          fix_errors: Fix errors before saving
+
+        alert:
+          fix_errors: Please fix errors above before saving changes
+
+    forum:
+
+    lib:
+      locations:
+        header: Header
+        discussion_sidebar: Discussion sidebar
+        footer: Footer
+        between_posts: Between posts
