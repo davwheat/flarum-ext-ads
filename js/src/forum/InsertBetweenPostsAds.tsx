@@ -15,17 +15,17 @@ export default function InsertBetweenPostsAds() {
     const items = originalView().children as Mithril.Children[];
 
     const newItems = items.reduce((itemList, currentItem, i) => {
-      const items = [...itemList, currentItem];
+      const curr = [...itemList, currentItem];
 
-      if (i % (parseInt(app.data['davwheat-ads.between-n-posts']) || 15) === 0) {
-        items.push(
-          <div key={`davwheat-ad-${i}`} class="davwheat-ad davwheat-ad-between-posts">
-            {Html}
-          </div>
+      if (i + 1 < items.length && i % (parseInt(app.data['davwheat-ads.between-n-posts']) || 15) === 0) {
+        curr.push(
+          <aside key={`davwheat-ad-${i}`} class="PostStream-item">
+            <div class="davwheat-ad davwheat-ad-between-posts">{Html}</div>
+          </aside>
         );
       }
 
-      return items;
+      return curr;
     }, [] as any[]);
 
     return <div className="PostStream">{newItems}</div>;
