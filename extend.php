@@ -33,14 +33,17 @@ return [
         $document->head[] = "<script async src=\"$url\" crossorigin=\"anonymous\"></script>";
       }
     }),
+
   (new Extend\Frontend('admin'))
     ->js(__DIR__ . '/js/dist/admin.js')
     ->css(__DIR__ . '/less/admin.less'),
+
   new Extend\Locales(__DIR__ . '/locale'),
 
   (new ExtensionSettings())
     ->addKey('davwheat-ads.enabled-ad-locations')
     ->addKey('davwheat-ads.between-n-posts')
+    ->addKey('davwheat-ads.enable-ad-after-placeholder')
     ->addKey('davwheat-ads.ad-code.header')
     ->addKey('davwheat-ads.ad-code.discussion_sidebar')
     ->addKey('davwheat-ads.ad-code.between_posts')

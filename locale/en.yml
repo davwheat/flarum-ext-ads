@@ -11,6 +11,7 @@ davwheat:
 
         pub_id: AdSense Publisher ID
         between_posts_gap: "Between posts: gap between ads"
+        allow_after_placeholder: "Between posts: show ad after reply placeholder"
 
         save_btn:
           dirty: Save changes

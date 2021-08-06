@@ -18,6 +18,7 @@ interface ISettingsPageState {
 
   isDirty: boolean;
   loading: boolean;
+  enableAdAfterPlaceholder: boolean;
 }
 
 export default class SettingsPage extends ExtensionPage {
@@ -30,6 +31,7 @@ export default class SettingsPage extends ExtensionPage {
       between_posts: '',
       discussion_header: '',
     },
+    enableAdAfterPlaceholder: false,
     betweenNPosts: 0,
     pubId: '',
     isDirty: false,
@@ -50,6 +52,7 @@ export default class SettingsPage extends ExtensionPage {
 
     this.state.pubId = app.data.settings['davwheat-ads.ca-pub-id'];
     this.state.betweenNPosts = parseInt(app.data.settings['davwheat-ads.between-n-posts']);
+    this.state.enableAdAfterPlaceholder = app.data.settings['davwheat-ads.enable-ad-after-placeholder'] === '1';
   }
 
   content() {
@@ -63,6 +66,7 @@ export default class SettingsPage extends ExtensionPage {
               placeholder="ca-pub-XXXXXXXXXX"
               type="text"
               value={this.state.pubId}
+              disabled={this.state.loading}
               oninput={(e: InputEvent) => {
                 this.state.isDirty = true;
 
@@ -108,6 +112,7 @@ export default class SettingsPage extends ExtensionPage {
               min="1"
               max="25"
               value={this.state.betweenNPosts}
+              disabled={this.state.loading || !this.isLocationEnabled('between_posts')}
               oninput={(e: InputEvent) => {
                 const val = parseInt((e.currentTarget as HTMLInputElement).value);
 
@@ -116,6 +121,18 @@ export default class SettingsPage extends ExtensionPage {
               }}
             />
           </label>
+
+          <Switch
+            state={this.state.enableAdAfterPlaceholder}
+            onchange={(val: boolean) => {
+              this.state.isDirty = true;
+              this.state.enableAdAfterPlaceholder = val;
+            }}
+            loading={this.state.loading}
+            disabled={this.state.loading || !this.isLocationEnabled('between_posts')}
+          >
+            {translate('allow_after_placeholder')}
+          </Switch>
         </fieldset>
 
         <aside class="davwheat-ads-notice">{translate('warning')}</aside>
@@ -172,6 +189,7 @@ export default class SettingsPage extends ExtensionPage {
       'davwheat-ads.enabled-ad-locations': JSON.stringify(this.state.enabledLocations),
       'davwheat-ads.ca-pub-id': this.state.pubId,
       'davwheat-ads.between-n-posts': this.state.betweenNPosts,
+      'davwheat-ads.enable-ad-after-placeholder': this.state.enableAdAfterPlaceholder ? 1 : 0,
 
       ...Object.keys(this.state.code).reduce((prev, curr) => {
         return { ...prev, [`davwheat-ads.ad-code.${curr}`]: this.state.code[curr as AdUnitLocations] };
