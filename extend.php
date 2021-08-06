@@ -40,6 +40,7 @@ return [
 
   (new ExtensionSettings())
     ->addKey('davwheat-ads.enabled-ad-locations')
+    ->addKey('davwheat-ads.between-n-posts')
     ->addKey('davwheat-ads.ad-code.header')
     ->addKey('davwheat-ads.ad-code.discussion_sidebar')
     ->addKey('davwheat-ads.ad-code.between_posts')

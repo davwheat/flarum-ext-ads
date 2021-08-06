@@ -1,5 +1,6 @@
 import app from 'flarum/forum/app';
 import type { AdUnitLocations } from 'src/common/AdUnitLocations';
+import InsertBetweenPostsAds from './InsertBetweenPostsAds';
 
 import InsertDiscussionPageHeaderAd from './InsertDiscussionPageHeaderAd';
 import InsertFooterAd from './InsertFooterAd';
@@ -18,5 +19,9 @@ app.initializers.add('davwheat/ads', () => {
 
   if (enabledSlots.includes('footer')) {
     InsertFooterAd();
+  }
+
+  if (enabledSlots.includes('between_posts')) {
+    InsertBetweenPostsAds();
   }
 });

@@ -9,6 +9,9 @@ davwheat:
         code_input: 'Code for "{for}" ad unit'
         code_input_disabled: Enable this location to edit its HTML code.
 
+        pub_id: AdSense Publisher ID
+        between_posts_gap: "Between posts: gap between ads"
+
         save_btn:
           dirty: Save changes
           saving: Saving...

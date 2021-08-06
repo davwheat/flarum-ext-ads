@@ -3,7 +3,6 @@ import ExtensionPage from 'flarum/admin/components/ExtensionPage';
 
 import Button from 'flarum/common/components/Button';
 import Switch from 'flarum/common/components/Switch';
-import classList from 'flarum/common/utils/classList';
 
 import saveSettings from 'flarum/admin/utils/saveSettings';
 import extractText from 'flarum/common/utils/extractText';
@@ -15,6 +14,7 @@ interface ISettingsPageState {
   enabledLocations: AdUnitLocations[];
   code: Record<AdUnitLocations, string>;
   pubId: string;
+  betweenNPosts: number;
 
   isDirty: boolean;
   loading: boolean;
@@ -28,7 +28,9 @@ export default class SettingsPage extends ExtensionPage {
       footer: '',
       discussion_sidebar: '',
       between_posts: '',
+      discussion_header: '',
     },
+    betweenNPosts: 0,
     pubId: '',
     isDirty: false,
     loading: false,
@@ -47,6 +49,7 @@ export default class SettingsPage extends ExtensionPage {
     });
 
     this.state.pubId = app.data.settings['davwheat-ads.ca-pub-id'];
+    this.state.betweenNPosts = parseInt(app.data.settings['davwheat-ads.between-n-posts']);
   }
 
   content() {
@@ -54,7 +57,7 @@ export default class SettingsPage extends ExtensionPage {
       <div class="content">
         <fieldset class="Form-group">
           <label>
-            AdSense Publisher ID
+            {translate('pub_id')}
             <input
               class="FormControl"
               placeholder="ca-pub-XXXXXXXXXX"
@@ -94,6 +97,25 @@ export default class SettingsPage extends ExtensionPage {
               {app.translator.trans(`davwheat.ads.lib.locations.${location}`)}
             </Switch>
           ))}
+        </fieldset>
+
+        <fieldset class="Form-group">
+          <label>
+            {translate('between_posts_gap')}
+            <input
+              class="FormControl"
+              type="number"
+              min="1"
+              max="25"
+              value={this.state.betweenNPosts}
+              oninput={(e: InputEvent) => {
+                const val = parseInt((e.currentTarget as HTMLInputElement).value);
+
+                this.state.isDirty = true;
+                this.state.betweenNPosts = val;
+              }}
+            />
+          </label>
         </fieldset>
 
         <aside class="davwheat-ads-notice">{translate('warning')}</aside>
@@ -149,6 +171,7 @@ export default class SettingsPage extends ExtensionPage {
     return saveSettings({
       'davwheat-ads.enabled-ad-locations': JSON.stringify(this.state.enabledLocations),
       'davwheat-ads.ca-pub-id': this.state.pubId,
+      'davwheat-ads.between-n-posts': this.state.betweenNPosts,
 
       ...Object.keys(this.state.code).reduce((prev, curr) => {
         return { ...prev, [`davwheat-ads.ad-code.${curr}`]: this.state.code[curr as AdUnitLocations] };
