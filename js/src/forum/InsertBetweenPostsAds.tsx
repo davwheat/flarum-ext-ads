@@ -16,8 +16,6 @@ export default function InsertBetweenPostsAds() {
   override(PostStream.prototype, 'view', function (originalView: () => Mithril.Vnode<any, any>): Mithril.Children {
     const items = originalView().children as Mithril.Children[];
 
-    console.log(items);
-
     const newItems = items.reduce((itemList, currentItem, i) => {
       const items = [...itemList, currentItem];
 
@@ -32,7 +30,7 @@ export default function InsertBetweenPostsAds() {
       return items;
     }, [] as any[]);
 
-    return newItems;
+    return <div className="PostStream">{newItems}</div>;
   });
 
   extend(PostStream.prototype, ['onupdate', 'oncreate'], (originalReturnVal: any) => {
