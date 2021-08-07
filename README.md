@@ -1,4 +1,4 @@
-# Davwheat Ads
+# davwheat Ad Units
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/davwheat/flarum-ext-ads.svg)](https://packagist.org/packages/davwheat/flarum-ext-ads) [![Total Downloads](https://img.shields.io/packagist/dt/davwheat/flarum-ext-ads.svg)](https://packagist.org/packages/davwheat/flarum-ext-ads) ![](https://flarum-badge-api.davwheat.dev/v1/compat-latest/davwheat/flarum-ext-ads)
 
