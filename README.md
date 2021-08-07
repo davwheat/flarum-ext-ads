@@ -32,6 +32,7 @@ If you use "between post" ads, make sure to configure the gap between ads in the
 
 > ⚠️ **If you use Google AdSense**, only insert the `<ins>` tag into the textbox.
 
+
 > ⚠️ The text boxes **do not** support `<script>` tags. These scripts will not be executed if you enter them into the text boxes, due to how Mithril functions.
 
 ## Links
