@@ -30,6 +30,7 @@ export default class SettingsPage extends ExtensionPage {
       sidebar: '',
       between_posts: '',
       discussion_header: '',
+      discussion_sidebar: '',
     },
     enableAdAfterPlaceholder: false,
     betweenNPosts: 0,

@@ -49,4 +49,5 @@ return [
     ->addKey('davwheat-ads.ad-code.between_posts')
     ->addKey('davwheat-ads.ad-code.footer')
     ->addKey('davwheat-ads.ad-code.discussion_header')
+    ->addKey('davwheat-ads.ad-code.discussion_sidebar')
 ];

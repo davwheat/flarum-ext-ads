@@ -3,6 +3,7 @@ import type { AdUnitLocations } from 'src/common/AdUnitLocations';
 import InsertBetweenPostsAds from './InsertBetweenPostsAds';
 
 import InsertDiscussionPageHeaderAd from './InsertDiscussionPageHeaderAd';
+import InsertDiscussionSidebarAd from './InsertDiscussionSidebarAd';
 import InsertFooterAd from './InsertFooterAd';
 import InsertHeaderAd from './InsertHeaderAd';
 import InsertSidebarAd from './InsertSidebarAd';
@@ -28,5 +29,9 @@ app.initializers.add('davwheat/ads', () => {
 
   if (enabledSlots.includes('sidebar')) {
     InsertSidebarAd();
+  }
+
+  if (enabledSlots.includes('discussion_sidebar')) {
+    InsertDiscussionSidebarAd();
   }
 });

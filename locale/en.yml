@@ -32,7 +32,8 @@ davwheat:
     lib:
       locations:
         discussion_header: Discussion page (under header)
+        discussion_sidebar: Discussion sidebar [DESKTOP ONLY]
         header: Header
-        sidebar: Side navigation
+        sidebar: Side navigation [DESKTOP ONLY]
         footer: Footer
         between_posts: Between posts

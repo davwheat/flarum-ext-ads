@@ -2,7 +2,7 @@
   .DiscussionPage-nav,
   .DiscussionPage-nav > ul {
     position: sticky;
-    top: 60px;
+    top: 36px;
   }
 
   .App {
@@ -10,12 +10,16 @@
   }
 }
 
-.davwheat-ad-sidebar {
+// Hide these ad units on mobile
+.davwheat-ad-sidebar,
+.davwheat-ad-discussion-sidebar {
   display: none;
 }
 
+// And show them on desktop
 @media @desktop-up {
-  .davwheat-ad-sidebar {
+  .davwheat-ad-sidebar,
+  .davwheat-ad-discussion-sidebar {
     display: block;
   }
 }
