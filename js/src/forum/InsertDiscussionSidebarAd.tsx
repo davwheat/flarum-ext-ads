@@ -16,7 +16,8 @@ export default function InsertDiscussionSidebarAd() {
 
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
-  (document.querySelector(':root') as HTMLHtmlElement).style.setProperty('--davwheat-ads--discussion-sidebar-position', '36px');
+  debugger;
+  root.style.setProperty('--davwheat-ads--discussion-sidebar-position', '36px');
 
   extend(DiscussionPage.prototype, 'sidebarItems', function (this: IndexPage, items: ItemList) {
     // Only show sidebar ad on desktop and tablet
