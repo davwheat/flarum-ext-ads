@@ -16,7 +16,6 @@ export default function InsertDiscussionSidebarAd() {
 
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
-  debugger;
   root.style.setProperty('--davwheat-ads--discussion-sidebar-position', '36px');
 
   extend(DiscussionPage.prototype, 'sidebarItems', function (this: IndexPage, items: ItemList) {
