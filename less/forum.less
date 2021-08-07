@@ -1,8 +1,12 @@
+:root {
+  --davwheat-ads--discussion-sidebar-position: 50px;
+}
+
 @media @tablet-up {
   .DiscussionPage-nav,
   .DiscussionPage-nav > ul {
     position: sticky;
-    top: 36px;
+    top: var(--davwheat-ads--discussion-sidebar-position);
   }
 
   .App {
