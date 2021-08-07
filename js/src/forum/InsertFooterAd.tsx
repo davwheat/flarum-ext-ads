@@ -6,6 +6,7 @@ export default function InsertFooterAd() {
 
   const footer = document.createElement('footer');
   footer.className = 'davwheat-ad davwheat-ad-footer';
+  footer.setAttribute('align', 'center');
 
   document.querySelector('.App-content')!.append(footer);
 

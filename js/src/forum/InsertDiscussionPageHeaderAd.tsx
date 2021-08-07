@@ -33,7 +33,10 @@ export default function InsertDiscussionPageHeaderAd() {
                   <ul>{listItems(this.sidebarItems().toArray())}</ul>
                 </nav>
                 <div className="DiscussionPage-stream">
-                  <div class="davwheat-ad davwheat-ad-discussion-header">{Html}</div>
+                  <div class="davwheat-ad davwheat-ad-discussion-header" align="center">
+                    {Html}
+                  </div>
+
                   {PostStream.component({
                     discussion,
                     stream: this.stream,
