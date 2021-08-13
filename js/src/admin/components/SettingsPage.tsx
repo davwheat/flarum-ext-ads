@@ -45,13 +45,13 @@ export default class SettingsPage extends ExtensionPage {
   oninit(vnode) {
     super.oninit(vnode);
 
-    this.state.enabledLocations = JSON.parse(app.data.settings['davwheat-ads.enabled-ad-locations']);
+    this.state.enabledLocations = JSON.parse(app.data.settings['davwheat-ads.enabled-ad-locations'] || '[]');
 
     AllAdUnitLocations.forEach((location) => {
-      this.state.code[location] = app.data.settings[`davwheat-ads.ad-code.${location}`];
+      this.state.code[location] = app.data.settings[`davwheat-ads.ad-code.${location}`] || '';
     });
 
-    this.state.pubId = app.data.settings['davwheat-ads.ca-pub-id'];
+    this.state.pubId = app.data.settings['davwheat-ads.ca-pub-id'] || '';
     this.state.betweenNPosts = parseInt(app.data.settings['davwheat-ads.between-n-posts']);
     this.state.enableAdAfterPlaceholder = app.data.settings['davwheat-ads.enable-ad-after-placeholder'] === '1';
   }
