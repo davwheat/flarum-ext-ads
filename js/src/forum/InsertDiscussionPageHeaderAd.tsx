@@ -15,6 +15,7 @@ import RefreshAds from './RefreshAds';
 
 export default function InsertDiscussionPageHeaderAd() {
   const AdCode = app.data['davwheat-ads.ad-code.discussion_header'] as string;
+  const Script = app.data['davwheat-ads.ad-code.discussion_header.js'] as string;
 
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
@@ -55,6 +56,7 @@ export default function InsertDiscussionPageHeaderAd() {
 
   extend(DiscussionPage.prototype, ['oncreate', 'onupdate'], function (this: DiscussionHero, returned: any) {
     RefreshAds();
+    eval(Script);
 
     return returned;
   });

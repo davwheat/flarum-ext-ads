@@ -11,8 +11,11 @@ import { AdUnitLocations, AllAdUnitLocations } from '../../common/AdUnitLocation
 const translate = (key: string, data?: Record<string, unknown>): string[] => app.translator.trans(`davwheat.ads.admin.settings.${key}`, data);
 
 interface ISettingsPageState {
+  disableAdSenseBox: boolean;
+  script_urls: string[];
+
   enabledLocations: AdUnitLocations[];
-  code: Record<AdUnitLocations, string>;
+  code: Record<AdUnitLocations | `${AdUnitLocations}.js`, string>;
   pubId: string;
   betweenNPosts: number;
 
@@ -23,7 +26,11 @@ interface ISettingsPageState {
 
 export default class SettingsPage extends ExtensionPage {
   state: ISettingsPageState = {
+    disableAdSenseBox: false,
+
     enabledLocations: [],
+    script_urls: [],
+
     code: {
       header: '',
       footer: '',
@@ -31,6 +38,12 @@ export default class SettingsPage extends ExtensionPage {
       between_posts: '',
       discussion_header: '',
       discussion_sidebar: '',
+      'header.js': '',
+      'footer.js': '',
+      'sidebar.js': '',
+      'between_posts.js': '',
+      'discussion_header.js': '',
+      'discussion_sidebar.js': '',
     },
     enableAdAfterPlaceholder: false,
     betweenNPosts: 0,
@@ -49,32 +62,76 @@ export default class SettingsPage extends ExtensionPage {
 
     AllAdUnitLocations.forEach((location) => {
       this.state.code[location] = app.data.settings[`davwheat-ads.ad-code.${location}`] || '';
+      this.state.code[`${location}.js`] = app.data.settings[`davwheat-ads.ad-code.${location}.js`] || '';
     });
 
     this.state.pubId = app.data.settings['davwheat-ads.ca-pub-id'] || '';
     this.state.betweenNPosts = parseInt(app.data.settings['davwheat-ads.between-n-posts']);
     this.state.enableAdAfterPlaceholder = app.data.settings['davwheat-ads.enable-ad-after-placeholder'] === '1';
+
+    this.state.disableAdSenseBox = !this.state.pubId;
+
+    this.state.script_urls = JSON.parse(app.data.settings['davwheat-ads.custom_ad_script_urls'] || '[]');
   }
 
   content() {
     return (
       <div class="content">
         <fieldset class="Form-group">
-          <label>
-            {translate('pub_id')}
-            <input
-              class="FormControl"
-              placeholder="ca-pub-XXXXXXXXXX"
-              type="text"
-              value={this.state.pubId}
-              disabled={this.state.loading}
-              oninput={(e: InputEvent) => {
-                this.state.isDirty = true;
+          <Switch state={!this.state.disableAdSenseBox} onchange={(val: boolean) => (this.state.disableAdSenseBox = !val)}>
+            {translate('use_adsense')}
+          </Switch>
 
-                this.state.pubId = (e.currentTarget as HTMLInputElement).value;
-              }}
-            />
-          </label>
+          {!this.state.disableAdSenseBox && (
+            <label>
+              {translate('pub_id')}
+              <input
+                class="FormControl"
+                placeholder="ca-pub-XXXXXXXXXX"
+                type="text"
+                value={this.state.pubId}
+                disabled={this.state.loading || this.state.disableAdSenseBox}
+                oninput={(e: InputEvent) => {
+                  this.state.isDirty = true;
+
+                  this.state.pubId = (e.currentTarget as HTMLInputElement).value;
+                }}
+              />
+            </label>
+          )}
+
+          {this.state.disableAdSenseBox && (
+            <>
+              <label>{translate('script_urls')}</label>
+
+              {this.state.script_urls.map((url, i) => (
+                <input
+                  key={i}
+                  class="FormControl"
+                  placeholder="https://example.com/script.js"
+                  type="text"
+                  value={url}
+                  disabled={this.state.loading || !this.state.disableAdSenseBox}
+                  oninput={(e: InputEvent) => {
+                    this.state.isDirty = true;
+
+                    this.state.script_urls[i] = (e.currentTarget as HTMLInputElement).value;
+                  }}
+                />
+              ))}
+
+              <p>{translate('script_deletion')}</p>
+
+              <Button
+                class="Button"
+                onclick={() => {
+                  this.state.script_urls.push('');
+                }}
+              >
+                {translate('add_script')}
+              </Button>
+            </>
+          )}
         </fieldset>
 
         <fieldset class="Form-group">
@@ -136,25 +193,47 @@ export default class SettingsPage extends ExtensionPage {
           </Switch>
         </fieldset>
 
-        <aside class="davwheat-ads-notice">{translate('warning')}</aside>
+        <aside class="davwheat-ads-notice">{translate('warning', { script: <code>&lt;script&gt;</code> })}</aside>
 
         <fieldset class="Form-group">
           {AllAdUnitLocations.map((location) => (
-            <label>
-              {translate('code_input', { for: app.translator.trans(`davwheat.ads.lib.locations.${location}`) })}
-              <textarea
-                disabled={this.state.loading || !this.isLocationEnabled(location)}
-                class="FormControl"
-                value={!this.isLocationEnabled(location) ? translate('code_input_disabled') : this.state.code[location]}
-                oninput={(e: InputEvent) => {
-                  this.state.isDirty = true;
+            <fieldset>
+              <legend>{app.translator.trans(`davwheat.ads.lib.locations.${location}`)}</legend>
 
-                  const val = (e.currentTarget as HTMLInputElement).value;
+              <div class="davwheat-ads__code-boxes">
+                <label>
+                  {translate('code_input')}
+                  <textarea
+                    disabled={this.state.loading || !this.isLocationEnabled(location)}
+                    class="FormControl"
+                    value={!this.isLocationEnabled(location) ? translate('code_input_disabled') : this.state.code[location]}
+                    oninput={(e: InputEvent) => {
+                      this.state.isDirty = true;
 
-                  this.state.code[location] = val;
-                }}
-              />
-            </label>
+                      const val = (e.currentTarget as HTMLInputElement).value;
+
+                      this.state.code[location] = val;
+                    }}
+                  />
+                </label>
+
+                <label>
+                  {translate('js_input')}
+                  <textarea
+                    disabled={this.state.loading || !this.isLocationEnabled(location)}
+                    class="FormControl"
+                    value={!this.isLocationEnabled(location) ? translate('js_input_disabled') : (this.state.code as any)[`${location}.js`]}
+                    oninput={(e: InputEvent) => {
+                      this.state.isDirty = true;
+
+                      const val = (e.currentTarget as HTMLInputElement).value;
+
+                      (this.state.code as any)[`${location}.js`] = val;
+                    }}
+                  />
+                </label>
+              </div>
+            </fieldset>
           ))}
         </fieldset>
 
@@ -205,7 +284,10 @@ export default class SettingsPage extends ExtensionPage {
 
     await saveSettings({
       'davwheat-ads.enabled-ad-locations': JSON.stringify(this.state.enabledLocations),
-      'davwheat-ads.ca-pub-id': this.state.pubId,
+      'davwheat-ads.ca-pub-id': this.state.disableAdSenseBox ? '' : this.state.pubId,
+      'davwheat-ads.custom-ad-script-urls': this.state.disableAdSenseBox
+        ? JSON.stringify(this.state.script_urls.filter((url) => url.length > 0))
+        : '[]',
       'davwheat-ads.between-n-posts': this.state.betweenNPosts,
       'davwheat-ads.enable-ad-after-placeholder': this.state.enableAdAfterPlaceholder ? 1 : 0,
 

@@ -12,6 +12,7 @@ export default function InsertSidebarAd() {
   const root = document.querySelector(':root') as HTMLHtmlElement;
 
   const AdCode = app.data['davwheat-ads.ad-code.sidebar'] as string;
+  const Script = app.data['davwheat-ads.ad-code.sidebar.js'] as string;
 
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
@@ -26,6 +27,7 @@ export default function InsertSidebarAd() {
 
   extend(IndexPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
     RefreshAds();
+    eval(Script);
 
     return returned;
   });

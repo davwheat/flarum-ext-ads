@@ -8,6 +8,7 @@ import PostStream from 'flarum/forum/components/PostStream';
 
 export default function InsertBetweenPostsAds() {
   const AdCode = app.data['davwheat-ads.ad-code.between_posts'] as string;
+  const Script = app.data['davwheat-ads.ad-code.between_posts.js'] as string;
 
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
@@ -41,6 +42,7 @@ export default function InsertBetweenPostsAds() {
 
   extend(PostStream.prototype, ['onupdate', 'oncreate'], (originalReturnVal: any) => {
     RefreshAds();
+    eval(Script);
 
     return originalReturnVal;
   });

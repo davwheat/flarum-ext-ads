@@ -13,6 +13,7 @@ export default function InsertDiscussionSidebarAd() {
   const root = document.querySelector(':root') as HTMLHtmlElement;
 
   const AdCode = app.data['davwheat-ads.ad-code.discussion_sidebar'] as string;
+  const Script = app.data['davwheat-ads.ad-code.discussion_sidebar.js'] as string;
 
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
@@ -29,6 +30,7 @@ export default function InsertDiscussionSidebarAd() {
 
   extend(DiscussionPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
     RefreshAds();
+    eval(Script);
 
     return returned;
   });

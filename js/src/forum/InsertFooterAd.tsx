@@ -3,6 +3,7 @@ import RefreshAds from './RefreshAds';
 
 export default function InsertFooterAd() {
   const AdCode = app.data['davwheat-ads.ad-code.footer'] as string;
+  const Script = app.data['davwheat-ads.ad-code.footer.js'] as string;
 
   const footer = document.createElement('footer');
   footer.className = 'davwheat-ad davwheat-ad-footer';
@@ -19,6 +20,7 @@ export default function InsertFooterAd() {
 
     footer.innerHTML = AdCode;
     RefreshAds();
+    eval(Script);
   };
 
   RefreshAds();

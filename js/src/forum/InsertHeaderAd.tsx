@@ -9,6 +9,7 @@ import RefreshAds from './RefreshAds';
 
 export default function InsertHeaderAd() {
   const AdCode = app.data['davwheat-ads.ad-code.header'] as string;
+  const Script = app.data['davwheat-ads.ad-code.header.js'] as string;
 
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
@@ -23,6 +24,7 @@ export default function InsertHeaderAd() {
 
   extend(IndexPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
     RefreshAds();
+    eval(Script);
 
     return returned;
   });
