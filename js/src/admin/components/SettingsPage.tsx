@@ -11,7 +11,6 @@ import { AdUnitLocations, AllAdUnitLocations } from '../../common/AdUnitLocation
 const translate = (key: string, data?: Record<string, unknown>): string[] => app.translator.trans(`davwheat.ads.admin.settings.${key}`, data);
 
 interface ISettingsPageState {
-  disableAdSenseBox: boolean;
   script_urls: string[];
 
   enabledLocations: AdUnitLocations[];
@@ -26,8 +25,6 @@ interface ISettingsPageState {
 
 export default class SettingsPage extends ExtensionPage {
   state: ISettingsPageState = {
-    disableAdSenseBox: false,
-
     enabledLocations: [],
     script_urls: [],
 
@@ -69,8 +66,6 @@ export default class SettingsPage extends ExtensionPage {
     this.state.betweenNPosts = parseInt(app.data.settings['davwheat-ads.between-n-posts']);
     this.state.enableAdAfterPlaceholder = app.data.settings['davwheat-ads.enable-ad-after-placeholder'] === '1';
 
-    this.state.disableAdSenseBox = !this.state.pubId;
-
     this.state.script_urls = JSON.parse(app.data.settings['davwheat-ads.custom_ad_script_urls'] || '[]');
   }
 
@@ -78,60 +73,52 @@ export default class SettingsPage extends ExtensionPage {
     return (
       <div class="content">
         <fieldset class="Form-group">
-          <Switch state={!this.state.disableAdSenseBox} onchange={(val: boolean) => (this.state.disableAdSenseBox = !val)}>
-            {translate('use_adsense')}
-          </Switch>
+          <label>
+            {translate('pub_id')}
+            <input
+              class="FormControl"
+              placeholder="ca-pub-XXXXXXXXXX"
+              type="text"
+              value={this.state.pubId}
+              disabled={this.state.loading}
+              oninput={(e: InputEvent) => {
+                this.state.isDirty = true;
 
-          {!this.state.disableAdSenseBox && (
-            <label>
-              {translate('pub_id')}
-              <input
-                class="FormControl"
-                placeholder="ca-pub-XXXXXXXXXX"
-                type="text"
-                value={this.state.pubId}
-                disabled={this.state.loading || this.state.disableAdSenseBox}
-                oninput={(e: InputEvent) => {
-                  this.state.isDirty = true;
+                this.state.pubId = (e.currentTarget as HTMLInputElement).value;
+              }}
+            />
+          </label>
+        </fieldset>
 
-                  this.state.pubId = (e.currentTarget as HTMLInputElement).value;
-                }}
-              />
-            </label>
-          )}
+        <fieldset class="Form-group">
+          <label>{translate('script_urls')}</label>
 
-          {this.state.disableAdSenseBox && (
-            <>
-              <label>{translate('script_urls')}</label>
+          {this.state.script_urls.map((url, i) => (
+            <input
+              key={i}
+              class="FormControl"
+              placeholder="https://example.com/script.js"
+              type="text"
+              value={url}
+              disabled={this.state.loading}
+              oninput={(e: InputEvent) => {
+                this.state.isDirty = true;
 
-              {this.state.script_urls.map((url, i) => (
-                <input
-                  key={i}
-                  class="FormControl"
-                  placeholder="https://example.com/script.js"
-                  type="text"
-                  value={url}
-                  disabled={this.state.loading || !this.state.disableAdSenseBox}
-                  oninput={(e: InputEvent) => {
-                    this.state.isDirty = true;
+                this.state.script_urls[i] = (e.currentTarget as HTMLInputElement).value;
+              }}
+            />
+          ))}
 
-                    this.state.script_urls[i] = (e.currentTarget as HTMLInputElement).value;
-                  }}
-                />
-              ))}
+          <p>{translate('script_deletion')}</p>
 
-              <p>{translate('script_deletion')}</p>
-
-              <Button
-                class="Button"
-                onclick={() => {
-                  this.state.script_urls.push('');
-                }}
-              >
-                {translate('add_script')}
-              </Button>
-            </>
-          )}
+          <Button
+            class="Button"
+            onclick={() => {
+              this.state.script_urls.push('');
+            }}
+          >
+            {translate('add_script')}
+          </Button>
         </fieldset>
 
         <fieldset class="Form-group">
@@ -284,10 +271,8 @@ export default class SettingsPage extends ExtensionPage {
 
     await saveSettings({
       'davwheat-ads.enabled-ad-locations': JSON.stringify(this.state.enabledLocations),
-      'davwheat-ads.ca-pub-id': this.state.disableAdSenseBox ? '' : this.state.pubId,
-      'davwheat-ads.custom-ad-script-urls': this.state.disableAdSenseBox
-        ? JSON.stringify(this.state.script_urls.filter((url) => url.length > 0))
-        : '[]',
+      'davwheat-ads.ca-pub-id': this.state.pubId,
+      'davwheat-ads.custom-ad-script-urls': JSON.stringify(this.state.script_urls.filter((url) => url.length > 0)),
       'davwheat-ads.between-n-posts': this.state.betweenNPosts,
       'davwheat-ads.enable-ad-after-placeholder': this.state.enableAdAfterPlaceholder ? 1 : 0,
 
