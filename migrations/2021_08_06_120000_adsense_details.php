@@ -12,5 +12,5 @@
 use Flarum\Database\Migration;
 
 return Migration::addSettings([
-  'davwheat-ads.ca-pub-id' => '',
+    'davwheat-ads.ca-pub-id' => '',
 ]);
