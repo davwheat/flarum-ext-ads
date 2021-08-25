@@ -262,7 +262,7 @@ export default class SettingsPage extends ExtensionPage {
       return false;
     });
 
-    if (doesCodeHaveScriptTag) {
+    if (doesCodeHaveScriptTag && !(window as any).__davwheatAds_bypassScriptCheck) {
       app.alerts.show({ type: 'error' }, translate('alert.code_has_script'));
 
       this.state.loading = false;
