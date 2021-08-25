@@ -39,7 +39,7 @@ return [
             $scripts = json_decode($settings->get('davwheat-ads.custom-ad-script-urls', '[]'), true);
 
             foreach ($scripts as $script) {
-                $document->head[] = "<script async src=\"$script\" crossorigin=\"anonymous\"></script>";
+                $document->head[] = "<script async src=\"$script\"></script>";
             }
         }),
 
