@@ -6,6 +6,7 @@ import IndexPage from 'flarum/forum/components/IndexPage';
 
 import type * as Mithril from 'mithril';
 import RefreshAds from './RefreshAds';
+import safelyEvalAdScript from './safelyEvalAdScript';
 
 export default function InsertHeaderAd() {
   const AdCode = app.data['davwheat-ads.ad-code.header'] as string;
@@ -24,7 +25,7 @@ export default function InsertHeaderAd() {
 
   extend(IndexPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
     RefreshAds();
-    eval(Script);
+    safelyEvalAdScript('header', Script);
 
     return returned;
   });

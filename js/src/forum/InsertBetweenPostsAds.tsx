@@ -5,6 +5,7 @@ import { extend, override } from 'flarum/common/extend';
 import type * as Mithril from 'mithril';
 import RefreshAds from './RefreshAds';
 import PostStream from 'flarum/forum/components/PostStream';
+import safelyEvalAdScript from './safelyEvalAdScript';
 
 export default function InsertBetweenPostsAds() {
   const AdCode = app.data['davwheat-ads.ad-code.between_posts'] as string;
@@ -42,7 +43,7 @@ export default function InsertBetweenPostsAds() {
 
   extend(PostStream.prototype, ['onupdate', 'oncreate'], (originalReturnVal: any) => {
     RefreshAds();
-    eval(Script);
+    safelyEvalAdScript('between posts', Script);
 
     return originalReturnVal;
   });

@@ -8,6 +8,7 @@ import type * as Mithril from 'mithril';
 import RefreshAds from './RefreshAds';
 import type ItemList from 'flarum/common/utils/ItemList';
 import DiscussionPage from 'flarum/forum/components/DiscussionPage';
+import safelyEvalAdScript from './safelyEvalAdScript';
 
 export default function InsertDiscussionSidebarAd() {
   const root = document.querySelector(':root') as HTMLHtmlElement;
@@ -30,7 +31,7 @@ export default function InsertDiscussionSidebarAd() {
 
   extend(DiscussionPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
     RefreshAds();
-    eval(Script);
+    safelyEvalAdScript('discussion sidebar', Script);
 
     return returned;
   });

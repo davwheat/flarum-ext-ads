@@ -1,5 +1,6 @@
 import app from 'flarum/forum/app';
 import RefreshAds from './RefreshAds';
+import safelyEvalAdScript from './safelyEvalAdScript';
 
 export default function InsertFooterAd() {
   const AdCode = app.data['davwheat-ads.ad-code.footer'] as string;
@@ -20,7 +21,7 @@ export default function InsertFooterAd() {
 
     footer.innerHTML = AdCode;
     RefreshAds();
-    eval(Script);
+    safelyEvalAdScript('footer', Script);
   };
 
   RefreshAds();
