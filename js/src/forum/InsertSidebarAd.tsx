@@ -25,8 +25,6 @@ export default function InsertSidebarAd() {
     if (['desktop-hd', 'desktop', 'tablet'].includes(getComputedStyle(root).getPropertyValue('--flarum-screen'))) {
       items.add('davwheat-ads', <div class="davwheat-ad davwheat-ad-sidebar">{Html}</div>, -1000);
     }
-
-    return items;
   });
 
   extend(IndexPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
@@ -34,7 +32,5 @@ export default function InsertSidebarAd() {
 
     RefreshAds();
     safelyEvalAdScript('sidebar', Script);
-
-    return returned;
   });
 }

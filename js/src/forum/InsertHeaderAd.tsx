@@ -33,7 +33,5 @@ export default function InsertHeaderAd() {
 
     RefreshAds();
     safelyEvalAdScript('header', Script);
-
-    return returned;
   });
 }

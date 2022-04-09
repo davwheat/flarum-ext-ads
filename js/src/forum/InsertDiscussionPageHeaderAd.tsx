@@ -63,7 +63,5 @@ export default function InsertDiscussionPageHeaderAd() {
 
     RefreshAds();
     safelyEvalAdScript('discussion page header', Script);
-
-    return returned;
   });
 }

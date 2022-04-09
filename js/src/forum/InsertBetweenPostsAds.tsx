@@ -50,7 +50,5 @@ export default function InsertBetweenPostsAds() {
 
     RefreshAds();
     safelyEvalAdScript('between posts', Script);
-
-    return originalReturnVal;
   });
 }

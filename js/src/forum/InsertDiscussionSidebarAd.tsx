@@ -28,8 +28,6 @@ export default function InsertDiscussionSidebarAd() {
     if (['desktop-hd', 'desktop', 'tablet'].includes(getComputedStyle(root).getPropertyValue('--flarum-screen'))) {
       items.add('davwheat-ads', <div class="davwheat-ad davwheat-ad-discussion-sidebar">{Html}</div>, 1000);
     }
-
-    return items;
   });
 
   extend(DiscussionPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
@@ -37,7 +35,5 @@ export default function InsertDiscussionSidebarAd() {
 
     RefreshAds();
     safelyEvalAdScript('discussion sidebar', Script);
-
-    return returned;
   });
 }
