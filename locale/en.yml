@@ -3,7 +3,15 @@ davwheat:
     # For more details on the format
     # Checkout https://docs.flarum.org/extend/i18n.html#appendix-a-standard-key-format
     admin:
+      permissions:
+        bypassAds: Hide advertisements from the forum
+
       settings:
+        admin_bypass_warning: |
+          Due to the nature of Flarum's permissions system, members of the Admin group will
+          not see any ads on the forum. If you wish to test your ads, please visit the forum
+          in an Incognito or Private window.
+
         enabled_locations: Enabled ad unit locations
 
         script_urls: Custom script URL(s)

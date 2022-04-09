@@ -8,6 +8,7 @@ import type * as Mithril from 'mithril';
 import RefreshAds from './RefreshAds';
 import type ItemList from 'flarum/common/utils/ItemList';
 import safelyEvalAdScript from './safelyEvalAdScript';
+import areAdsBypassed from './areAdsBypassed';
 
 export default function InsertSidebarAd() {
   const root = document.querySelector(':root') as HTMLHtmlElement;
@@ -27,6 +28,8 @@ export default function InsertSidebarAd() {
   });
 
   extend(IndexPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
+    if (areAdsBypassed()) return;
+
     RefreshAds();
     safelyEvalAdScript('sidebar', Script);
 

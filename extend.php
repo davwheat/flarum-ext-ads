@@ -13,41 +13,22 @@ namespace Davwheat\Ads;
 
 use Flarum\Extend;
 use Davwheat\Ads\Extend\ExtensionSettings;
-use Flarum\Frontend\Document;
-use Flarum\Settings\SettingsRepositoryInterface;
+use Flarum\Api\Serializer\ForumSerializer;
 
 return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__ . '/js/dist/forum.js')
         ->css(__DIR__ . '/less/forum.less')
-        ->content(function (Document $document) {
-            /**
-             * @var SettingsRepositoryInterface
-             */
-            $settings = resolve(SettingsRepositoryInterface::class);
-            $caPubId = $settings->get('davwheat-ads.ca-pub-id', '');
-
-            if ($caPubId !== '') {
-                $url = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=$caPubId";
-
-                $document->head[] = "<script async src=\"$url\" crossorigin=\"anonymous\"></script>";
-            }
-
-            /**
-             * @var array
-             */
-            $scripts = json_decode($settings->get('davwheat-ads.custom-ad-script-urls', '[]'), true);
-
-            foreach ($scripts as $script) {
-                $document->head[] = "<script async src=\"$script\"></script>";
-            }
-        }),
+        ->content(ForumDocumentContent::class),
 
     (new Extend\Frontend('admin'))
         ->js(__DIR__ . '/js/dist/admin.js')
         ->css(__DIR__ . '/less/admin.less'),
 
     new Extend\Locales(__DIR__ . '/locale'),
+
+    (new Extend\ApiSerializer(ForumSerializer::class))
+        ->attributes(ForumAttributes::class),
 
     (new ExtensionSettings())
         ->addKey('davwheat-ads.ad-code.between_posts', '')
