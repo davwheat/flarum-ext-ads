@@ -18,7 +18,9 @@ export default function InsertSidebarAd() {
 
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
-  extend(IndexPage.prototype, 'sidebarItems', function (this: IndexPage, items: ItemList) {
+  extend(IndexPage.prototype, 'sidebarItems', function (this: IndexPage, items: ItemList<Mithril.Children>) {
+    if (areAdsBypassed()) return;
+
     // Only show sidebar ad on desktop and tablet
     if (['desktop-hd', 'desktop', 'tablet'].includes(getComputedStyle(root).getPropertyValue('--flarum-screen'))) {
       items.add('davwheat-ads', <div class="davwheat-ad davwheat-ad-sidebar">{Html}</div>, -1000);
