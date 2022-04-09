@@ -8,9 +8,11 @@ import saveSettings from 'flarum/admin/utils/saveSettings';
 import extractText from 'flarum/common/utils/extractText';
 import { AdUnitLocations, AllAdUnitLocations } from '../../common/AdUnitLocations';
 
-const translate = (key: string, data?: Record<string, unknown>): string[] => app.translator.trans(`davwheat.ads.admin.settings.${key}`, data);
+import type Mithril from 'mithril';
 
-interface ISettingsPageState {
+const translate = (key: string, data?: Record<string, unknown>): Mithril.Children => app.translator.trans(`davwheat.ads.admin.settings.${key}`, data);
+
+export interface ISettingsPageState {
   script_urls: string[];
 
   enabledLocations: AdUnitLocations[];
@@ -50,7 +52,7 @@ export default class SettingsPage extends ExtensionPage {
   };
 
   // Don't use super's loading property
-  loading: undefined;
+  loading!: never;
 
   oninit(vnode) {
     super.oninit(vnode);
@@ -72,6 +74,8 @@ export default class SettingsPage extends ExtensionPage {
   content() {
     return (
       <div class="content">
+        <p style="margin-top: 24px; font-weight: bold; color: red; margin-bottom: 32px;">{translate('admin_bypass_warning')}</p>
+
         <fieldset class="Form-group">
           <label>
             {translate('pub_id')}
@@ -224,7 +228,12 @@ export default class SettingsPage extends ExtensionPage {
           ))}
         </fieldset>
 
-        <Button onclick={this.saveSettings.bind(this)} class="Button Button--primary" disabled={!this.state.isDirty} loading={this.state.loading}>
+        <Button
+          onclick={this.customSaveSettings.bind(this)}
+          class="Button Button--primary"
+          disabled={!this.state.isDirty}
+          loading={this.state.loading}
+        >
           {this.getButtonText()}
         </Button>
       </div>
@@ -246,7 +255,7 @@ export default class SettingsPage extends ExtensionPage {
     this.state.isDirty = true;
   }
 
-  private async saveSettings(e: Event) {
+  async customSaveSettings(e: SubmitEvent) {
     e.preventDefault();
 
     app.alerts.clear();

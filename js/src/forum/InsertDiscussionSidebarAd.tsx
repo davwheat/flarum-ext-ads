@@ -9,6 +9,7 @@ import RefreshAds from './RefreshAds';
 import type ItemList from 'flarum/common/utils/ItemList';
 import DiscussionPage from 'flarum/forum/components/DiscussionPage';
 import safelyEvalAdScript from './safelyEvalAdScript';
+import areAdsBypassed from './areAdsBypassed';
 
 export default function InsertDiscussionSidebarAd() {
   const root = document.querySelector(':root') as HTMLHtmlElement;
@@ -20,7 +21,9 @@ export default function InsertDiscussionSidebarAd() {
 
   root.style.setProperty('--davwheat-ads--discussion-sidebar-position', '36px');
 
-  extend(DiscussionPage.prototype, 'sidebarItems', function (this: IndexPage, items: ItemList) {
+  extend(DiscussionPage.prototype, 'sidebarItems', function (this: IndexPage, items: ItemList<Mithril.Children>) {
+    if (areAdsBypassed()) return;
+
     // Only show sidebar ad on desktop and tablet
     if (['desktop-hd', 'desktop', 'tablet'].includes(getComputedStyle(root).getPropertyValue('--flarum-screen'))) {
       items.add('davwheat-ads', <div class="davwheat-ad davwheat-ad-discussion-sidebar">{Html}</div>, 1000);
@@ -30,6 +33,8 @@ export default function InsertDiscussionSidebarAd() {
   });
 
   extend(DiscussionPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
+    if (areAdsBypassed()) return;
+
     RefreshAds();
     safelyEvalAdScript('discussion sidebar', Script);
 
