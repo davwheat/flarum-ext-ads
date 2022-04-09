@@ -19,7 +19,7 @@ export default function InsertSidebarAd() {
   const Html = m.trust(AdCode) as ReturnType<Mithril.Static['trust']>;
 
   extend(IndexPage.prototype, 'sidebarItems', function (this: IndexPage, items: ItemList<Mithril.Children>) {
-    if (areAdsBypassed()) return;
+    if (areAdsBypassed() || app.current.get('routeName') === 'tags') return;
 
     // Only show sidebar ad on desktop and tablet
     if (['desktop-hd', 'desktop', 'tablet'].includes(getComputedStyle(root).getPropertyValue('--flarum-screen'))) {
@@ -30,7 +30,7 @@ export default function InsertSidebarAd() {
   });
 
   extend(IndexPage.prototype, ['oncreate', 'onupdate'], function (this: IndexPage, returned: any) {
-    if (areAdsBypassed()) return;
+    if (areAdsBypassed() || app.current.get('routeName') === 'tags') return;
 
     RefreshAds();
     safelyEvalAdScript('sidebar', Script);
