@@ -9,13 +9,9 @@
 
 namespace Davwheat\Ads;
 
-use Flarum\Extend\ExtenderInterface;
-use Flarum\Extension\Extension;
 use Flarum\Frontend\Document;
-use Flarum\Frontend\Frontend;
 use Flarum\Http\RequestUtil;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Illuminate\Contracts\Container\Container;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ForumDocumentContent

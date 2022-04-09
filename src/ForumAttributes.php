@@ -10,7 +10,6 @@
 namespace Davwheat\Ads;
 
 use Flarum\Api\Serializer\ForumSerializer;
-use Flarum\Settings\SettingsRepositoryInterface;
 
 class ForumAttributes
 {
